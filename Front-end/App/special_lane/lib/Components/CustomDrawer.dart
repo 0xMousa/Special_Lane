@@ -5,10 +5,12 @@ import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
 
 class CustomDrawer extends StatefulWidget {
-  final page;
+  final pageId;
+  final nvigate;
 
   CustomDrawer({
-    @required this.page,
+    @required this.pageId,
+    @required this.nvigate,
   });
 
   @override
@@ -16,39 +18,23 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
-  final items = [
-    {
-      'id': HomePage.id,
-      'name': 'Home',
-    },
-    {
-      'id': 'id',
-      'name': 'Pictures',
-    },
-    {
-      'id': 'id',
-      'name': 'Notifications',
-    },
-    {
-      'id': ProfilePage.id,
-      'name': 'Profile',
-    },
-  ];
+  final pageIdToName = {
+    HomePage.id: 'Home',
+    Notifications.id: 'Notifications',
+    UploadPage.id: 'Pictures',
+    ProfilePage.id: 'Profile',
+  };
+  final nameToPageId = {
+    'Home': HomePage.id,
+    'Notifications': Notifications.id,
+    'Pictures': UploadPage.id,
+    'Profile': ProfilePage.id,
+  };
+  final items = ['Home', 'Pictures', 'Notifications', 'Profile'];
 
   @override
   void initState() {
     super.initState();
-  }
-
-  nvigate(String pageId) {
-    print(pageId);
-    if (pageId == HomePage.id && widget.page != 'Home') {
-      Navigator.pop(context);
-    } else if (pageId != HomePage.id && widget.page == 'Home') {
-      Navigator.pushNamed(context, pageId);
-    } else if (pageId != HomePage.id && widget.page != 'Home') {
-      Navigator.pushReplacementNamed(context, pageId);
-    } else {}
   }
 
   signOut() {}
@@ -68,12 +54,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(items.length, (item) {
-                final name = items[item]['name'];
-                final color =
-                    (name == widget.page ? UI.pickedColor : UI.darkColor);
+                final name = items[item];
+                final color = (name == pageIdToName[widget.pageId]
+                    ? UI.pickedColor
+                    : UI.darkColor);
                 return GestureDetector(
                   onTap: () {
-                    nvigate(items[item]['id']);
+                    widget.nvigate(nameToPageId[name]);
                   },
                   child: _Item(
                     name: name,

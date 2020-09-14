@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:special_lane/Components/components.dart';
+import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
 
 class ProfilePage extends StatefulWidget {
-  static final id = 'ProfilePageID';
+  static final id = 'ProfilePageId';
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -56,12 +57,26 @@ class _ProfilePageState extends State<ProfilePage> {
     scaffoldKey.currentState.openDrawer();
   }
 
+  nvigate(String id) {
+    scaffoldKey.currentState.openEndDrawer();
+    if (id == HomePage.id) {
+      Navigator.pop(context);
+    } else if (id != ProfilePage.id) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) {
+          return IdToPage.idToPage(id);
+        }),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       drawer: CustomDrawer(
-        page: 'Profile',
+        pageId: ProfilePage.id,
+        nvigate: nvigate,
       ),
       body: Container(
         padding: EdgeInsets.all(30.0),

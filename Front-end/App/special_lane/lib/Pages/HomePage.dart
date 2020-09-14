@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:special_lane/Classes/classes.dart';
 import 'package:special_lane/Components/components.dart';
+import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
 
 class HomePage extends StatefulWidget {
-  static final id = 'HomePageID';
+  static final id = 'HomePageId';
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -47,17 +48,37 @@ class _HomePageState extends State<HomePage> {
     scaffoldKey.currentState.openDrawer();
   }
 
+  nvigate(String id) {
+    scaffoldKey.currentState.openEndDrawer();
+    if (id != HomePage.id) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) {
+          return IdToPage.idToPage(id);
+        }),
+      );
+    }
+  }
+
+  openPrizes(String prise) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) {
+        return PrisePage(prizes: Things.drinks[prise]);
+      }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       drawer: CustomDrawer(
-        page: 'Home',
+        pageId: HomePage.id,
+        nvigate: nvigate,
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
                 padding: EdgeInsets.all(30.0),
@@ -77,77 +98,69 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: 30.0,
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomRow(
-                          child: Text(
-                            'You have:',
-                            style: TextStyle(
-                              color: UI.lightSecondaryFontColor,
-                              fontSize: UI.fontSize[2],
-                              fontFamily: 'Montserrat',
-                            ),
-                          ),
-                          index: 0,
+                    CustomRow(
+                      child: Text(
+                        'You have:',
+                        style: TextStyle(
+                          color: UI.lightSecondaryFontColor,
+                          fontSize: UI.fontSize[2],
+                          fontFamily: 'Montserrat',
                         ),
-                        SizedBox(
-                          height: 12.0,
+                      ),
+                      index: 0,
+                    ),
+                    SizedBox(
+                      height: 12.0,
+                    ),
+                    CustomRow(
+                      child: Text(
+                        UI.numberFormat(points.toString()),
+                        style: TextStyle(
+                          color: UI.primaryFontColor,
+                          fontSize: UI.fontSize[0],
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
                         ),
-                        CustomRow(
-                          child: Text(
-                            UI.numberFormat(points.toString()),
-                            style: TextStyle(
-                              color: UI.primaryFontColor,
-                              fontSize: UI.fontSize[0],
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          index: 1,
+                      ),
+                      index: 1,
+                    ),
+                    SizedBox(
+                      height: 12.0,
+                    ),
+                    CustomRow(
+                      child: Text(
+                        'Points',
+                        style: TextStyle(
+                          color: UI.lightSecondaryFontColor,
+                          fontSize: UI.fontSize[2],
+                          fontFamily: 'Montserrat',
                         ),
-                        SizedBox(
-                          height: 12.0,
-                        ),
-                        CustomRow(
-                          child: Text(
-                            'Points',
-                            style: TextStyle(
-                              color: UI.lightSecondaryFontColor,
-                              fontSize: UI.fontSize[2],
-                              fontFamily: 'Montserrat',
-                            ),
-                          ),
-                          index: 2,
-                        ),
-                      ],
+                      ),
+                      index: 2,
                     ),
                   ],
                 ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Cards(
-                    title: 'Cities',
-                    info: cities,
-                    backgroundColor: UI.blueGradient,
-                    fontColor: UI.blue,
-                  ),
-                  Cards(
-                    title: 'Prizes',
-                    info: prizes,
-                    backgroundColor: UI.greenGradient,
-                    fontColor: UI.green,
-                  ),
-                  Cards(
-                    title: 'Violations',
-                    info: violations,
-                    backgroundColor: UI.redGradient,
-                    fontColor: UI.red,
-                  ),
-                ],
+              // Cards(
+              //   title: 'Cities',
+              //   info: cities,
+              //   backgroundColor: UI.blueGradient,
+              //   fontColor: UI.blue,
+              //   openPrizes: openPrizes,
+              // ),
+              Cards(
+                title: 'Prizes',
+                info: prizes,
+                backgroundColor: UI.greenGradient,
+                fontColor: UI.green,
+                openPrizes: openPrizes,
               ),
+              // Cards(
+              //   title: 'Violations',
+              //   info: violations,
+              //   backgroundColor: UI.redGradient,
+              //   fontColor: UI.red,
+              // ),
               SizedBox(height: 30.0),
             ],
           ),

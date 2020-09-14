@@ -38,10 +38,15 @@ class UI {
 
   static final fontSize = [50.0, 32.0, 24.0, 20.0, 16.0];
   static final iconSize = 24.0;
+  static final bigIconSize = 30.0;
 
   static final buttonHeight = 55.0;
+
   static final cardHeight = 115.0;
   static final cardWidth = 150.0;
+
+  static final imageHeight = 200.0;
+  static final imageWidth = 300.0;
 
   static numberFormat(String number) {
     String res = '';

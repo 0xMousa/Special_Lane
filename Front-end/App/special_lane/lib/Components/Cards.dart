@@ -6,12 +6,14 @@ class Cards extends StatelessWidget {
   final info;
   final fontColor;
   final backgroundColor;
+  final openPrizes;
 
   Cards({
     @required this.title,
     @required this.info,
     @required this.fontColor,
     @required this.backgroundColor,
+    this.openPrizes,
   });
 
   @override
@@ -46,10 +48,12 @@ class Cards extends StatelessWidget {
                 );
               }
               return _Card(
+                title: title,
                 name: info[index - 1].name,
                 number: info[index - 1].number,
                 fontColor: fontColor,
                 backgroundColor: backgroundColor,
+                openPrizes: openPrizes,
               );
             }),
           ),
@@ -63,48 +67,58 @@ class Cards extends StatelessWidget {
 }
 
 class _Card extends StatelessWidget {
-  final name, number;
+  final title, name, number;
   final fontColor;
   final backgroundColor;
+  final openPrizes;
 
   _Card({
+    @required this.title,
     @required this.name,
     @required this.number,
     @required this.fontColor,
     @required this.backgroundColor,
+    @required this.openPrizes,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: UI.cardHeight,
-      width: UI.cardWidth,
-      margin: EdgeInsets.only(right: 16.0),
-      decoration: BoxDecoration(
-        gradient: backgroundColor,
-        borderRadius: BorderRadius.circular(25.0),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(
-            name,
-            style: TextStyle(
-              color: fontColor,
-              fontSize: UI.fontSize[2],
-              fontFamily: 'Quicksand',
+    return GestureDetector(
+      onTap: () {
+        if (title == 'Prizes') {
+          openPrizes(name);
+        }
+      },
+      child: Container(
+        height: UI.cardHeight,
+        width: UI.cardWidth,
+        margin: EdgeInsets.only(right: 16.0),
+        decoration: BoxDecoration(
+          gradient: backgroundColor,
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              name,
+              style: TextStyle(
+                color: fontColor,
+                fontSize: UI.fontSize[2],
+                fontFamily: 'Quicksand',
+              ),
             ),
-          ),
-          Text(
-            number,
-            style: TextStyle(
-              color: fontColor,
-              fontSize: UI.fontSize[2],
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.bold,
+            Text(
+              number,
+              style: TextStyle(
+                color: fontColor,
+                fontSize: UI.fontSize[2],
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
