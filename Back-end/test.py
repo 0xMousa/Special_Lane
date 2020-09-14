@@ -16,31 +16,22 @@ from keras.preprocessing.image import load_img, img_to_array
 from keras.applications.mobilenet_v2 import preprocess_input
 from sklearn.preprocessing import LabelEncoder
 import glob
-
+from toString import toString
 
 root = os.path.abspath(".")
 image = os.path.join(root , "images/IMG_3816.JPG")
  
 plate = detectPlate()
+convert = toString()
 
 i = cv2.imread(image)
 plateType = plate.getPlateType(i)
 print(plateType)
 if plateType == "Rectangular":
-    c = plate.getRectangularPlate(i)
+    chars = plate.getRectangularPlate(i)
 elif plateType == "Square":
-    c = plate.getSquarePlate(i)
+    chars = plate.getSquarePlate(i)
 elif plateType == "Didn't find a plate":
     pass
 
-fig = plt.figure(figsize=(14,4))
-grid = gridspec.GridSpec(ncols=len(c),nrows=1,figure=fig)
-try:
-    for i in range(len(c)):
-        fig.add_subplot(grid[i])
-        plt.axis(False)
-        plt.imshow(c[i],cmap="gray")
-except:
-    print(i)
-
-plt.show()
+print(convert.getString(chars))

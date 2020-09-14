@@ -55,28 +55,16 @@ class detectPlate:
     def getRectangularPlate(self,image):
         car, plate, dim = self.__getPlate(image)
         plate = plate[0]
-        '''
-        plt.imshow(plate)
-        plt.show()
-        '''
         return self.__getChars(plate, 1 , 2 , 4.5 )
 
     def getSquarePlate(self,image):
         car, plate, dim = self.__getPlate(image)
         h = plate[0].shape[0]
         plate = np.concatenate((plate[0][0:int(h*0.55)],plate[0][int(h*0.45):h]) ,axis = 1 )#To make it rectangular
-        '''
-        plt.imshow(plate)
-        plt.show()
-        '''
         return self.__getChars(plate ,1.5 ,2.5,5.5)
         
     def __getChars(self , plate , minRatio , maxRatio , oneRatio):
         plateImage,binary,threMor = self.__imageX(plate)
-        '''
-        plt.imshow(threMor)
-        plt.show()
-        '''
         cont, _  = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         cropCharacters = []
         onePostions = []
