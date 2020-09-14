@@ -7,3 +7,8 @@ Idea implemintaion using Flutter
   - Log in page
   - Sign up page
   - Home page (not finished)
+  
+## Second 3 Hours
+  - Home page
+  - Profile page
+  - Drawer
