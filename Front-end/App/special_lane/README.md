@@ -12,3 +12,8 @@ Idea implemintaion using Flutter
   - Home page
   - Profile page
   - Drawer
+ 
+## Third 3 Hours
+  - Upload image page
+  - Navigations
+  - Finish Some Classes
