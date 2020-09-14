@@ -7,6 +7,7 @@ class CustomTextField extends StatelessWidget {
   final icon;
   final iconColor;
   final isObscure;
+  final initialValue;
 
   CustomTextField({
     @required this.action,
@@ -14,14 +15,16 @@ class CustomTextField extends StatelessWidget {
     @required this.icon,
     @required this.iconColor,
     @required this.isObscure,
+    this.initialValue,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       onChanged: (value) {
         action(value);
       },
+      initialValue: initialValue ?? '',
       obscureText: isObscure,
       style: TextStyle(
         color: UI.primaryFontColor,
