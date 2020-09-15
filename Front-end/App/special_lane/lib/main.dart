@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'Pages/pages.dart';
 import 'Util/util.dart';
 
@@ -20,7 +21,7 @@ class _AppState extends State<App> {
       theme: ThemeData(
         scaffoldBackgroundColor: UI.backgroundColor,
       ),
-      home: HomePage(),
+      home: SignUp(),
     );
   }
 }

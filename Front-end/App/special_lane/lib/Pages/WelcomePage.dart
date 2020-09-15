@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:special_lane/Components/components.dart';
+import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
 
-class WelcomePage extends StatelessWidget {
-  logIn() {}
-  signUp() {}
+class WelcomePage extends StatefulWidget {
+  @override
+  _WelcomePageState createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  logIn() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) {
+        return LogIn();
+      }),
+    );
+  }
+
+  signUp() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) {
+        return SignUp();
+      }),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

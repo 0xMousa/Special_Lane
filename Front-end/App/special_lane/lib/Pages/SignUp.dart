@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:special_lane/Components/components.dart';
+import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
+import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {
   @override
@@ -10,6 +13,8 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   String name, username, email, carNumber, password;
   bool isObscure;
+  Response response;
+  Dio dio = Dio();
 
   @override
   void initState() {
@@ -22,8 +27,32 @@ class _SignUpState extends State<SignUp> {
     isObscure = true;
   }
 
-  logIn() {}
-  signUp() {}
+  logIn() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) {
+        return LogIn();
+      }),
+    );
+  }
+
+  signUp() async {
+    var response = await http.post(
+      API.register,
+      body: {
+        'name': name,
+        'username': username,
+        'email': email,
+        'carNo': carNumber,
+        'pass': password,
+      },
+    );
+    print(response.body);
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) {
+        return LogIn();
+      }),
+    );
+  }
 
   nameInput(String input) {
     setState(() {

@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:special_lane/Components/components.dart';
+import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
+import 'package:http/http.dart' as http;
 
 class LogIn extends StatefulWidget {
   @override
@@ -10,6 +13,7 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   String username, password;
   bool isObscure;
+  Map<String, String> headers;
 
   @override
   void initState() {
@@ -17,10 +21,47 @@ class _LogInState extends State<LogIn> {
     username = '';
     password = '';
     isObscure = true;
+    headers = {};
   }
 
-  logIn() {}
-  signUp() {}
+  Future<Map> post(String url, dynamic data) async {
+    http.Response response = await http.post(url, body: data, headers: headers);
+    updateCookie(response);
+    return json.decode(response.body);
+  }
+
+  void updateCookie(http.Response response) {
+    String rawCookie = response.headers['set-cookie'];
+    print(rawCookie);
+    if (rawCookie != null) {
+      int index = rawCookie.indexOf(';');
+      headers['cookie'] =
+          (index == -1) ? rawCookie : rawCookie.substring(0, index);
+    }
+  }
+
+  logIn() async {
+    post(
+      API.login,
+      {
+        'user': 'admin',
+        'pass': 'admin',
+      },
+    );
+    // Navigator.of(context).pushReplacement(
+    //   MaterialPageRoute(builder: (context) {
+    //     return HomePage();
+    //   }),
+    // );
+  }
+
+  signUp() async {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) {
+        return SignUp();
+      }),
+    );
+  }
 
   usernameInput(String input) {
     setState(() {
