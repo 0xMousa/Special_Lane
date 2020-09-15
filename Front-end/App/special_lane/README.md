@@ -24,3 +24,9 @@ Idea implemintaion using Flutter
   - Prise Page
   - City Page
   - [Prise, Location] Classes
+
+## After some hours
+  - Link front end with back end
+    - Log in
+    - Sign up
+    - Upload images
