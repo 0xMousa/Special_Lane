@@ -6,3 +6,4 @@ export 'ProfilePage.dart';
 export 'Notifications.dart';
 export 'UploadPage.dart';
 export 'PrisePage.dart';
+export 'CityPage.dart';

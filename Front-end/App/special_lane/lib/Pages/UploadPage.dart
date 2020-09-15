@@ -24,6 +24,14 @@ class _UploadPageState extends State<UploadPage> {
     super.initState();
   }
 
+  gallery() {
+    pickImage(ImageSource.gallery);
+  }
+
+  camera() {
+    pickImage(ImageSource.camera);
+  }
+
   Future<void> pickImage(ImageSource source) async {
     final pickedFile = await picker.getImage(source: source);
 
@@ -41,6 +49,10 @@ class _UploadPageState extends State<UploadPage> {
       sourcePath: imageFile.path,
       maxWidth: UI.imageWidth.toInt(),
       maxHeight: UI.imageHeight.toInt(),
+      androidUiSettings: AndroidUiSettings(
+        toolbarColor: UI.backgroundColor,
+        toolbarWidgetColor: UI.primaryFontColor,
+      ),
     );
 
     setState(() {
@@ -69,14 +81,6 @@ class _UploadPageState extends State<UploadPage> {
     }
   }
 
-  gallery() {
-    pickImage(ImageSource.gallery);
-  }
-
-  camera() {
-    pickImage(ImageSource.camera);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,12 +89,9 @@ class _UploadPageState extends State<UploadPage> {
         pageId: UploadPage.id,
         nvigate: nvigate,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: gallery,
-      ),
       body: Container(
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 30.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +101,7 @@ class _UploadPageState extends State<UploadPage> {
                   onTap: openDrawer,
                   child: Icon(
                     Icons.menu,
-                    size: UI.iconSize,
+                    size: UI.iconSize[3],
                     color: UI.primaryFontColor,
                   ),
                 ),
@@ -122,6 +123,33 @@ class _UploadPageState extends State<UploadPage> {
                 height: 50.0,
               ),
               getImage(),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: UI.backgroundColor,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 30.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                onTap: camera,
+                child: Icon(
+                  Icons.camera,
+                  size: UI.iconSize[1],
+                  color: UI.primaryFontColor,
+                ),
+              ),
+              GestureDetector(
+                onTap: gallery,
+                child: Icon(
+                  Icons.image,
+                  size: UI.iconSize[1],
+                  color: UI.primaryFontColor,
+                ),
+              ),
             ],
           ),
         ),

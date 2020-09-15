@@ -110,7 +110,7 @@ class _Item extends StatelessWidget {
           ),
           Icon(
             Icons.arrow_forward_ios,
-            size: UI.iconSize,
+            size: UI.iconSize[3],
             color: UI.primaryFontColor,
           ),
         ],

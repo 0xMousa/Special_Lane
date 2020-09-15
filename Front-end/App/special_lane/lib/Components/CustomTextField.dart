@@ -45,7 +45,7 @@ class CustomTextField extends StatelessWidget {
         suffixIcon: Icon(
           icon,
           color: iconColor,
-          size: UI.iconSize,
+          size: UI.iconSize[3],
         ),
         hintText: hint,
         hintStyle: TextStyle(

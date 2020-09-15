@@ -6,14 +6,14 @@ class Cards extends StatelessWidget {
   final info;
   final fontColor;
   final backgroundColor;
-  final openPrizes;
+  final action;
 
   Cards({
     @required this.title,
     @required this.info,
     @required this.fontColor,
     @required this.backgroundColor,
-    this.openPrizes,
+    @required this.action,
   });
 
   @override
@@ -53,7 +53,7 @@ class Cards extends StatelessWidget {
                 number: info[index - 1].number,
                 fontColor: fontColor,
                 backgroundColor: backgroundColor,
-                openPrizes: openPrizes,
+                action: action,
               );
             }),
           ),
@@ -70,7 +70,7 @@ class _Card extends StatelessWidget {
   final title, name, number;
   final fontColor;
   final backgroundColor;
-  final openPrizes;
+  final action;
 
   _Card({
     @required this.title,
@@ -78,16 +78,14 @@ class _Card extends StatelessWidget {
     @required this.number,
     @required this.fontColor,
     @required this.backgroundColor,
-    @required this.openPrizes,
+    @required this.action,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (title == 'Prizes') {
-          openPrizes(name);
-        }
+        action(title, name);
       },
       child: Container(
         height: UI.cardHeight,

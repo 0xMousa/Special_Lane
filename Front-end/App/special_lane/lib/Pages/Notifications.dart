@@ -43,6 +43,43 @@ class _NotificationsState extends State<Notifications> {
         pageId: Notifications.id,
         nvigate: nvigate,
       ),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 30.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomRow(
+                child: GestureDetector(
+                  onTap: openDrawer,
+                  child: Icon(
+                    Icons.menu,
+                    size: UI.iconSize[3],
+                    color: UI.primaryFontColor,
+                  ),
+                ),
+                index: 0,
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
+              Text(
+                'You can check all\nyour notifications.',
+                style: TextStyle(
+                  color: UI.primaryFontColor,
+                  fontSize: UI.fontSize[1],
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 50.0,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

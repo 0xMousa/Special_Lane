@@ -11,6 +11,6 @@ class Prise {
   fromMap(Map<String, dynamic> map) {
     this.name = map['name'] ?? '';
     this.shop = map['shop'] ?? '';
-    this.points = map['points'] ?? '';
+    this.points = map['points'] ?? 0;
   }
 }

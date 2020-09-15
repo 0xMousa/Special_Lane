@@ -7,6 +7,9 @@ class UI {
   static final lightSecondaryFontColor = Color(0xFF858995);
   static final pickedColor = Color(0xFF1C2541);
   static final darkColor = Color(0xFF3A506B);
+  static final pureGreen = Color(0xFF00FF00);
+  static final pureRed = Color(0xFFFF0000);
+  static final black = Color(0x64000000);
   static final green = Color(0xFF006155);
   static final blue = Color(0xFF203F79);
   static final red = Color(0xFF6D002A);
@@ -36,9 +39,8 @@ class UI {
     end: Alignment.bottomRight,
   );
 
-  static final fontSize = [50.0, 32.0, 24.0, 20.0, 16.0];
-  static final iconSize = 24.0;
-  static final bigIconSize = 30.0;
+  static final fontSize = [50.0, 30.0, 24.0, 20.0, 16.0];
+  static final iconSize = [50.0, 40.0, 30.0, 24.0];
 
   static final buttonHeight = 55.0;
 

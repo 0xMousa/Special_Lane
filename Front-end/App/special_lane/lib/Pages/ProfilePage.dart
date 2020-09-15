@@ -93,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       onTap: openDrawer,
                       child: Icon(
                         Icons.menu,
-                        size: UI.iconSize,
+                        size: UI.iconSize[3],
                         color: UI.primaryFontColor,
                       ),
                     ),

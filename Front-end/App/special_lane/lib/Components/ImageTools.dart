@@ -30,7 +30,7 @@ class ImageTools extends StatelessWidget {
               child: Icon(
                 Icons.close,
                 color: UI.darkColor,
-                size: UI.bigIconSize,
+                size: UI.iconSize[2],
               ),
             ),
             GestureDetector(
@@ -38,7 +38,7 @@ class ImageTools extends StatelessWidget {
               child: Icon(
                 Icons.settings,
                 color: UI.darkColor,
-                size: UI.bigIconSize,
+                size: UI.iconSize[2],
               ),
             ),
             GestureDetector(
@@ -46,7 +46,7 @@ class ImageTools extends StatelessWidget {
               child: Icon(
                 Icons.done,
                 color: UI.darkColor,
-                size: UI.bigIconSize,
+                size: UI.iconSize[2],
               ),
             ),
           ],
