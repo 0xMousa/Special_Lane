@@ -31,13 +31,11 @@ RestFul API
 class upload(Resource):
     def post(self):
         if "userID" in session:
-            '''
             f = request.files["image"]
             f.save(os.path.join(imagesPath , sha1(f.filename.encode()).hexdigest()))
-            '''
         else:
             abort(403)
-        return "Ok"
+        return {"message" : "thanks"}
 
 class login(Resource):
     def post(self):
@@ -49,7 +47,7 @@ class login(Resource):
             session["username"] = res[0][1]
             message = "Login Successful"
         else:
-            message = "Login Failed"
+            abort(403 , "Login Failed")
         return {"message" : message}
 
 class register(Resource):
