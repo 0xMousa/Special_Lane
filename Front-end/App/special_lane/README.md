@@ -17,3 +17,10 @@ Idea implemintaion using Flutter
   - Upload image page
   - Navigations
   - Finish Some Classes
+  
+## Fourth 3 Hours
+  - Complete Upload image page
+  - Notifications Page
+  - Prise Page
+  - City Page
+  - [Prise, Location] Classes
