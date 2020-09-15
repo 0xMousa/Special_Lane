@@ -1,7 +1,9 @@
 from flask_restful import reqparse
-from flask import session
+from flask import session,abort
 from hashlib import sha256
 import re
+import string
+import random
 
 def loginArg():
     arg = reqparse.RequestParser()
@@ -22,9 +24,8 @@ def hashPassword(password):
     return sha256(password.encode()).hexdigest()
 
 def isUser():
-    if "userID" in session:
-        return True
-    return False
+    if "userID" not in session:
+        abort(403 , "Not Allow")
 
 def hasDigitAndSp(password):
     for i in password:
@@ -42,3 +43,11 @@ def isValidEmail(email):
     if(re.search(regex,email)):
         return True
     return False
+
+def genCode():
+    letters = string.ascii_letters + string.digits
+    code = ""
+    for k in range(4):
+        code += ''.join(random.choice(letters) for i in range(4))
+        code += "-"
+    return code[0:19]

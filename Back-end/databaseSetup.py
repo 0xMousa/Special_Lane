@@ -54,6 +54,15 @@ c.execute('''CREATE TABLE IF NOT EXISTS submit (
     FOREIGN KEY (userID) REFERENCES users(id)
 )''')
 
+c.executemany(
+    'INSERT INTO submit ("userID","imageName","carNo","date") VALUES (?,?,?,?)',
+    [
+        (1 , "a","123456" , "9-9-9"),
+        (1 , "b","15888" , "6-9-9"),
+        (1 , "c","19999" , "5-9-9")
+    ]
+)
+
 c.execute('''CREATE TABLE IF NOT EXISTS prizes (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     menuID INTEGER NOT NULL,
@@ -64,7 +73,17 @@ c.execute('''CREATE TABLE IF NOT EXISTS prizes (
     FOREIGN KEY (userID) REFERENCES users(id)
 )''')
 
-c.execute('''INSERT INTO users (username , name , password , email ,points , carNo) VALUES("admin" , "Mousa" , "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" , "admin@lane.com" , 0 , "")''')
+
+c.executemany(
+    'INSERT INTO prizes ("menuID","userID","code","status") VALUES (?,?,?,?)',
+    [
+        (1 , 1,"mosa-mosa" , 1),
+        (1 , 1,"bbbb-bbbb" , 1),
+        (1 , 1,"cccc-cccc" , 0)
+    ]
+)
+
+c.execute('''INSERT INTO users (username , name , password , email ,points , carNo) VALUES("admin" , "Mousa" , "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" , "admin@lane.com" , 10000 , "")''')
 c.execute('''INSERT INTO users (username , name , password , email ,points , carNo) VALUES("mustafa" , "mustafa" , "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" , "mustafa@lane.com" , 0 , "")''')
 
 
