@@ -55,7 +55,7 @@ class detectPlate:
     def getRectangularPlate(self,image):
         car, plate, dim = self.__getPlate(image)
         plate = plate[0]
-        return self.__getChars(plate, 1 , 2 , 4.5 )
+        return self.__getChars(plate, 1 , 2 , 4.0 )
 
     def getSquarePlate(self,image):
         car, plate, dim = self.__getPlate(image)
@@ -79,7 +79,7 @@ class detectPlate:
                 _, currNum = cv2.threshold(currNum, 220, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
                 cropCharacters.append(currNum)
                 i+=1
-            elif oneRatio<=charRatio<=(oneRatio+1) and h/plateImage.shape[0]>=0.5:
+            elif oneRatio<=charRatio<=(oneRatio+3) and h/plateImage.shape[0]>=0.5:
                 currNum = threMor[y:y+h,x:x+w]
                 currNum = cv2.resize(currNum, dsize=(digit_w, digit_h))
                 _, currNum = cv2.threshold(currNum, 220, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)

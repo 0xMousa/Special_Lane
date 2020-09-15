@@ -17,12 +17,15 @@ from keras.applications.mobilenet_v2 import preprocess_input
 from sklearn.preprocessing import LabelEncoder
 import glob
 from toString import toString
+from detectCars import detectCars
 
 root = os.path.abspath(".")
-image = os.path.join(root , "images/IMG_3816.JPG")
- 
+image = os.path.join(root , "images/Jordan2.jpeg")
+car = detectCars()
 plate = detectPlate()
 convert = toString()
+
+print(car.findCars(image))
 
 i = cv2.imread(image)
 plateType = plate.getPlateType(i)
