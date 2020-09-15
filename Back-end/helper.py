@@ -1,5 +1,7 @@
 from flask_restful import reqparse
+from flask import session
 from hashlib import sha256
+import re
 
 def loginArg():
     arg = reqparse.RequestParser()
@@ -10,9 +12,8 @@ def loginArg():
 def registerArg():
     arg = reqparse.RequestParser()
     arg.add_argument("name" , type=str ,help="name is required" ,required=True)
-    arg.add_argument("user" , type=str ,help="user is required" ,required=True) 
+    arg.add_argument("username" , type=str ,help="user is required" ,required=True) 
     arg.add_argument("pass" , type=str ,help="password is required" ,required=True)
-    arg.add_argument("passConfirm" , type=str ,help="password confirm is required" ,required=True)
     arg.add_argument("email" , type=str ,help="email confirm is required" ,required=True) 
     arg.add_argument("carNo" , type=str ,help="car number NOT required")
     return arg
@@ -20,3 +21,24 @@ def registerArg():
 def hashPassword(password):
     return sha256(password.encode()).hexdigest()
 
+def isUser():
+    if "userID" in session:
+        return True
+    return False
+
+def hasDigitAndSp(password):
+    for i in password:
+        if i.isdigit():
+            return True
+    return False
+
+def isValidPassword(password):
+    if len(password)>7 and hasDigitAndSp(password):
+        return True
+    return False
+
+def isValidEmail(email):
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    if(re.search(regex,email)):
+        return True
+    return False

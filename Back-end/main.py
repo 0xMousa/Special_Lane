@@ -30,11 +30,11 @@ RestFul API
 
 class upload(Resource):
     def post(self):
-        if "userID" in session:
+        if isUser():
             f = request.files["image"]
             f.save(os.path.join(imagesPath , sha1(f.filename.encode()).hexdigest()))
         else:
-            abort(403)
+            abort(403 , "Not Allow")
         return {"message" : "thanks"}
 
 class login(Resource):
@@ -53,7 +53,22 @@ class login(Resource):
 class register(Resource):
     def post(self):
         args = registerArg().parse_args()
-        return args
+        res = queryDb("select id from users where username=? or email=?" , (args["username"] , args["email"]))
+        if len(res)>0:
+            print("*"*10)
+            abort(400 , "username or email is exist")
+        elif not isValidPassword(args['pass']):
+            #print("*"*10)
+            abort(400 , "the password must has a at lest one digit and more 7 chars")
+        elif not isValidEmail(args['email'].lower()):
+            print("*"*10)
+            abort(400 , "Email not valid")
+        else:
+            res = queryDb("INSERT INTO users (username , name , password , email ,points , carNo) VALUES(?,?,?,?,?,?)" ,
+                    (args["username"] , args["name"], hashPassword(args['pass']),args['email'].lower() , 0 ,  args['carNo']))
+            message = "Registration Successful" 
+        
+        return {"message" : message}
 
 class userInformation(Resource):
     def get(self , username):
