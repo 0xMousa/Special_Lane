@@ -1,4 +1,4 @@
-from flask import  Flask, request ,g,json,session
+from flask import  Flask, request ,g,json,session,abort
 from flask_restful import Resource , Api,reqparse
 import os
 from hashlib import sha1
@@ -30,8 +30,13 @@ RestFul API
 
 class upload(Resource):
     def post(self):
-        f = request.files["image"]
-        f.save(os.path.join(imagesPath , sha1(f.filename.encode()).hexdigest()))
+        if "userID" in session:
+            '''
+            f = request.files["image"]
+            f.save(os.path.join(imagesPath , sha1(f.filename.encode()).hexdigest()))
+            '''
+        else:
+            abort(403)
         return "Ok"
 
 class login(Resource):
