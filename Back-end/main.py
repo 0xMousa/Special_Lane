@@ -8,6 +8,7 @@ from laneDetection import isViolated
 from detectCars import detectCars
 from detectPlate import detectPlate
 from toString import toString
+import cv2
 
 app = Flask(__name__)
 api = Api(app)
