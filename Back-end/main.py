@@ -26,15 +26,10 @@ def queryDb(query, args=(), one=False):
     return (rv[0] if rv else None) if one else rv
 
 
-from detectCars import detectCars
-from detectPlate import detectPlate
 from laneDetection import isViolated
-car = detectCars()
-plate = detectPlate()
-
-def check(imagePath):
-    allCars = car.findCars(imagePath)
-    print(allCars)
+import cv2
+x =cv2.imread('images/test_1.jpg' )
+print(isViolated(x, [[0, 100], [0, 200], [200, 100], [200, 200]]))
 
 '''
 RestFul API

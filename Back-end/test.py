@@ -1,3 +1,5 @@
+
+
 from detectCars import detectCars
 
 import os
@@ -20,15 +22,12 @@ from toString import toString
 from detectCars import detectCars
 from laneDetection import isViolated
 
-root = os.path.abspath(".")
-image = os.path.join(root , "images/test_1.jpg")
 
-'''
 car = detectCars()
 plate = detectPlate()
 convert = toString()
 
-
+image = "images/test_1.jpg"
 
 def check(imagePath):
     imageOpened = cv2.imread(image)
@@ -46,7 +45,7 @@ def check(imagePath):
     
     plt.imshow(imageOpened)
     plt.show()
-'''
+
 print(isViolated(cv2.imread(image), [[0, 100], [0, 200], [200, 100], [200, 200]]))
 
 
