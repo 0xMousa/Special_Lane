@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 def isViolated(src, carPoints):
     # Resize the image
@@ -15,23 +15,20 @@ def isViolated(src, carPoints):
     imgBlur = cv2.GaussianBlur(imgGrey, (7, 7), 1)
     imgCanny = cv2.Canny(imgBlur, 50, 50)
 
-    # Set HSV values for color detection
-    cv2.namedWindow('TrackBars')
-    cv2.createTrackbar('Hue Min', 'TrackBars', 11, 179, lambda a: a)
-    cv2.createTrackbar('Hue Max', 'TrackBars', 14, 179, lambda a: a)
-    cv2.createTrackbar('Sat Min', 'TrackBars', 131, 255, lambda a: a)
-    cv2.createTrackbar('Sat Max', 'TrackBars', 159, 255, lambda a: a)
-    cv2.createTrackbar('Val Min', 'TrackBars', 204, 255, lambda a: a)
-    cv2.createTrackbar('Val Max', 'TrackBars', 255, 255, lambda a: a)
-
     # Building the mask
     imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    h_min = cv2.getTrackbarPos('Hue Min', 'TrackBars')
-    h_max = cv2.getTrackbarPos('Hue Max', 'TrackBars')
-    s_min = cv2.getTrackbarPos('Sat Min', 'TrackBars')
-    s_max = cv2.getTrackbarPos('Sat Max', 'TrackBars')
-    v_min = cv2.getTrackbarPos('Val Min', 'TrackBars')
-    v_max = cv2.getTrackbarPos('Val Max', 'TrackBars')
+
+    plt.imshow(img)
+    plt.show()
+    # HSV values
+    h_min = 11
+    h_max = 14
+    s_min = 131
+    s_max = 159
+    v_min = 204
+    v_max = 255
+
+    # Color Detection
     lower = np.array([h_min, s_min, v_min])
     upper = np.array([h_max, s_max, v_max])
     mask = cv2.inRange(imgHSV, lower, upper)
@@ -93,11 +90,11 @@ def isViolated(src, carPoints):
 
     # Car size
     carSize = (carPoints[3][0] - carPoints[0][0]) * \
-        (carPoints[1][1] - carPoints[0][1])
+        (carPoints[2][1] - carPoints[0][1])
 
     # Car area detection
     for i in range(carPoints[0][0], carPoints[3][0]):
-        for j in range(carPoints[0][1], carPoints[1][1]):
+        for j in range(carPoints[0][1], carPoints[2][1]):
             detectionArea[i][j] += carArea
 
     # Percent calculation
@@ -106,5 +103,5 @@ def isViolated(src, carPoints):
         for j in range(0, cols):
             if detectionArea[i][j] == 3:
                 carIn += 1
-
+    print((carIn * 100) / (carSize * 100))
     return (carIn * 100) / (carSize * 100) > 0.3

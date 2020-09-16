@@ -117,4 +117,6 @@ isViolatied( cv2.imread(image),
      [ , ]#button-left
      [ .]]#button-right
      )
+
+[[x,y],[w,y],[x,h],[w,h]]
 '''

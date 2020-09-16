@@ -4,6 +4,10 @@ import os
 from hashlib import sha1
 from helper import *
 import sqlite3
+from laneDetection import isViolated
+from detectCars import detectCars
+from detectPlate import detectPlate
+from toString import toString
 
 app = Flask(__name__)
 api = Api(app)
@@ -25,6 +29,52 @@ def queryDb(query, args=(), one=False):
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
+car = detectCars()
+plate = detectPlate()
+convert = toString()
+
+def getPl(image):
+    plateType = plate.getPlateType(image)
+    print(plateType)
+    if plateType == "Rectangular":
+        chars = plate.getRectangularPlate(image)
+    elif plateType == "Square":
+        chars = plate.getSquarePlate(image)
+    elif plateType == "Didn't find a plate":
+        abort(400 , "Didn't find a plate")
+    
+    if len(chars)==0:
+        chars = 0 #must review manually
+    chars = convert.getString(chars)
+    return chars
+
+def checkImage(imageName):
+    t = False
+    cars = car.findCars(imageName)
+    print(cars)
+    if len(cars) == 0:
+        abort(400 , "No cars in your image")
+    image = cv2.imread(imageName)
+    plt.imshow(image)
+    plt.show()
+    for i in cars:
+        y = int(i[0]/10)
+        x = int(i[1]/10)
+        h = int(i[2]/10)
+        w = int(i[3]/10)
+        ss =isViolated(image , [[x,y],[w,y],[x,h],[w,h]])
+        if ss:
+            t = True
+            carNo = getPl(image[i[0]:i[2] , i[1]:i[3]])
+            print(carNo)
+            now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            queryDb("insert into submit ('userID' , 'imageName' , 'carNo' , date) VALUES(?,?,?,?)",(session["userID"],imageName , carNo,now))
+            queryDb("update users set points=points+20 where id=?",(session["userID"],))
+
+    if not t:
+        abort(400 , "no violated car ")
+    return "thanks for your submission"
+
 
 '''
 RestFul API
@@ -34,8 +84,10 @@ class upload(Resource):
     def post(self):
         isUser()
         f = request.files["image"]
-        f.save(os.path.join(imagesPath , sha1(f.filename.encode()).hexdigest()))
-        return {"message" : "thanks"}
+        imagePath = os.path.join(imagesPath , sha1(f.filename.encode()).hexdigest())
+        f.save(imagePath)
+        message = checkImage(imagePath)
+        return {"message" : message}
 
 class login(Resource):
     def post(self):

@@ -4,7 +4,6 @@ import skimage.io
 import tensorflow as tf
 from tensorflow.python.keras.backend import set_session
 
-
 root = os.path.abspath(".")
 root = os.path.join(root , "Mask_RCNN")
 sys.path.append(root)

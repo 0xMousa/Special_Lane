@@ -7,6 +7,8 @@ import numpy as np
 from local_utils import detect_lp
 from detectCars import tf_config
 
+import matplotlib.pyplot as plt
+
 
 class detectPlate:
     def __init__(self):
@@ -50,11 +52,17 @@ class detectPlate:
         binary = cv2.threshold(blur, 180, 255,cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
         kernel3 = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
         threMor = cv2.morphologyEx(binary, cv2.MORPH_DILATE, kernel3)
+
+        plt.imshow(binary)
+        plt.show()
+
         return plate_image,binary,threMor
     
     def getRectangularPlate(self,image):
         car, plate, dim = self.__getPlate(image)
         plate = plate[0]
+        plt.imshow(plate)
+        plt.show()
         return self.__getChars(plate, 1 , 2 , 4.0 )
 
     def getSquarePlate(self,image):
@@ -70,8 +78,10 @@ class detectPlate:
         onePostions = []
         digit_w, digit_h = 30, 60
         i=0
+        print(len(cont))
         for c in self.__sortContours(cont):
             (x, y, w, h) = cv2.boundingRect(c)
+            print((x, y, w, h))
             charRatio = h/w
             if minRatio<=charRatio<=maxRatio and h/plateImage.shape[0]>=0.5:
                 currNum = threMor[y:y+h,x:x+w]
