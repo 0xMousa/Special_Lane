@@ -1,14 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:special_lane/Components/components.dart';
 import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
-import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
+
+import '../Classes/classes.dart';
 
 class UploadPage extends StatefulWidget {
   static final id = 'UploadPageId';
@@ -20,47 +21,42 @@ class UploadPage extends StatefulWidget {
 class _UploadPageState extends State<UploadPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final picker = ImagePicker();
-  Map<String, String> headers;
   File imageFile;
+  User user;
+  bool isLoading;
+  bool isSuccess;
 
   @override
   void initState() {
     super.initState();
-    headers = {};
-    logIn();
+    user = Provider.of<User>(context, listen: false);
+    isLoading = false;
+    isSuccess = null;
   }
 
-  Future<Map> post(String url, dynamic data) async {
-    http.Response response = await http.post(url, body: data, headers: headers);
-    updateCookie(response);
-    return json.decode(response.body);
-  }
+  // Future<Map> post(String url, dynamic data) async {
+  //   http.Response response = await http.post(url, body: data, headers: headers);
+  //   updateCookie(response);
+  //   return json.decode(response.body);
+  // }
 
-  void updateCookie(http.Response response) {
-    String rawCookie = response.headers['set-cookie'];
-    print(rawCookie);
-    if (rawCookie != null) {
-      int index = rawCookie.indexOf(';');
-      headers['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
-    }
-  }
+  // void updateCookie(http.Response response) {
+  //   String rawCookie = response.headers['set-cookie'];
+  //   print(rawCookie);
+  //   if (rawCookie != null) {
+  //     int index = rawCookie.indexOf(';');
+  //     headers['cookie'] =
+  //         (index == -1) ? rawCookie : rawCookie.substring(0, index);
+  //   }
+  // }
 
-  logIn() async {
-    var url = 'http://18.195.21.37:1337/login';
-    post(url, {
-      'user': 'admin',
-      'pass': 'admin',
-    });
-  }
-
-  signUp() async {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) {
-        return SignUp();
-      }),
-    );
-  }
+  // logIn() async {
+  //   var url = 'http://18.195.21.37:1337/login';
+  //   post(url, {
+  //     'user': 'admin',
+  //     'pass': 'admin',
+  //   });
+  // }
 
   gallery() {
     pickImage(ImageSource.gallery);
@@ -76,15 +72,19 @@ class _UploadPageState extends State<UploadPage> {
     print("file base name:$fileName");
 
     try {
+      setState(() {
+        isLoading = true;
+      });
       FormData formData = new FormData.fromMap({
         'image':
             await MultipartFile.fromFile(filePath.path, filename: fileName),
       });
-      dio.options.headers['cookie'] = headers['cookie'];
+      dio.options.headers['cookie'] = user.headers['cookie'];
       Response response = await dio.post(
         API.upload,
         data: formData,
       );
+      isLoading = true;
       print("File upload response: $response");
     } catch (e) {
       print("expectation Caugch: $e");

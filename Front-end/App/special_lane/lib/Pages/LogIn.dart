@@ -4,6 +4,10 @@ import 'package:special_lane/Components/components.dart';
 import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import '../Classes/classes.dart';
+import '../Components/components.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -12,8 +16,9 @@ class LogIn extends StatefulWidget {
 
 class _LogInState extends State<LogIn> {
   String username, password;
-  bool isObscure;
+  bool isObscure, isLoading;
   Map<String, String> headers;
+  User user;
 
   @override
   void initState() {
@@ -21,7 +26,9 @@ class _LogInState extends State<LogIn> {
     username = '';
     password = '';
     isObscure = true;
+    isLoading = false;
     headers = {};
+    user = Provider.of<User>(context, listen: false);
   }
 
   Future<Map> post(String url, dynamic data) async {
@@ -38,21 +45,25 @@ class _LogInState extends State<LogIn> {
       headers['cookie'] =
           (index == -1) ? rawCookie : rawCookie.substring(0, index);
     }
+    user.setHeaders(headers);
   }
 
   logIn() async {
-    post(
+    setState(() {
+      isLoading = true;
+    });
+    await post(
       API.login,
       {
         'user': 'admin',
         'pass': 'admin',
       },
     );
-    // Navigator.of(context).pushReplacement(
-    //   MaterialPageRoute(builder: (context) {
-    //     return HomePage();
-    //   }),
-    // );
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) {
+        return HomePage();
+      }),
+    );
   }
 
   signUp() async {
@@ -132,9 +143,13 @@ class _LogInState extends State<LogIn> {
               SizedBox(
                 height: 30.0,
               ),
-              PrimaryButton(
-                name: 'Log in',
-                action: logIn,
+              Container(
+                child: isLoading
+                    ? WaitingButton()
+                    : PrimaryButton(
+                        name: 'Log in',
+                        action: logIn,
+                      ),
               ),
               SizedBox(
                 height: 30.0,

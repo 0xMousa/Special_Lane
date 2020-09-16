@@ -12,7 +12,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   String name, username, email, carNumber, password;
-  bool isObscure;
+  bool isObscure, isLoading;
   Response response;
   Dio dio = Dio();
 
@@ -25,6 +25,7 @@ class _SignUpState extends State<SignUp> {
     carNumber = '';
     password = '';
     isObscure = true;
+    isLoading = false;
   }
 
   logIn() {
@@ -36,6 +37,9 @@ class _SignUpState extends State<SignUp> {
   }
 
   signUp() async {
+    setState(() {
+      isLoading = true;
+    });
     var response = await http.post(
       API.register,
       body: {
@@ -46,12 +50,13 @@ class _SignUpState extends State<SignUp> {
         'pass': password,
       },
     );
-    print(response.body);
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) {
-        return LogIn();
-      }),
-    );
+    if (response.statusCode == 200) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) {
+          return LogIn();
+        }),
+      );
+    }
   }
 
   nameInput(String input) {
@@ -152,9 +157,13 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 height: 30.0,
               ),
-              PrimaryButton(
-                name: 'Sign up',
-                action: signUp,
+              Container(
+                child: isLoading
+                    ? WaitingButton()
+                    : PrimaryButton(
+                        name: 'Sign up',
+                        action: signUp,
+                      ),
               ),
               SizedBox(
                 height: 30.0,

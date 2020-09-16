@@ -1,5 +1,6 @@
 class API {
-  static final login = 'http://18.195.21.37:1337/login';
-  static final upload = 'http://18.195.21.37:1337/upload';
-  static final register = 'http://18.195.21.37:1337/register';
+  static final url = 'http://18.195.21.37:1337';
+  static final login = url + '/login';
+  static final upload = url + '/upload';
+  static final register = url + '/register';
 }
