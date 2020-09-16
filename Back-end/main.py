@@ -26,11 +26,6 @@ def queryDb(query, args=(), one=False):
     return (rv[0] if rv else None) if one else rv
 
 
-from laneDetection import isViolated
-import cv2
-x =cv2.imread('images/test_1.jpg' )
-print(isViolated(x, [[0, 100], [0, 200], [200, 100], [200, 200]]))
-
 '''
 RestFul API
 '''
