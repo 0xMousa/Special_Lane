@@ -110,6 +110,3 @@ def isViolated(src, carPoints):
     return (carIn * 100) / (carSize * 100) > 0.3
 
 
-print(isViolated(cv2.imread('test_1.jpg'), [
-    [0, 100], [0, 200], [200, 100], [200, 200]]))
-

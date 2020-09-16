@@ -25,6 +25,17 @@ def queryDb(query, args=(), one=False):
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
+
+from detectCars import detectCars
+from detectPlate import detectPlate
+from laneDetection import isViolated
+car = detectCars()
+plate = detectPlate()
+
+def check(imagePath):
+    allCars = car.findCars(imagePath)
+    print(allCars)
+
 '''
 RestFul API
 '''
@@ -83,6 +94,9 @@ class userInformation(Resource):
 class carInformation(Resource):
     def get(self , carNumber):
         isUser()
+        res = queryDb("select date FROM submit WHERE carNo=?" , (carNumber,))
+        submitDate = [date[0] for date in res]
+        return {"submitDate" : submitDate}
 
 class allMenu(Resource):
     def get(self , shopName):
@@ -118,6 +132,12 @@ class menu(Resource):
         queryDb("insert into prizes ('menuID' , 'userID' , 'code' ,'status') VALUES(?,?,?,1)",( itemID, session["userID"], code))
         return {"code" : code}
 
+class shops(Resource):
+    def get(self):
+        isUser()
+        res = queryDb("SELECT shopName from shops")
+        shops = [shop[0] for shop in res]
+        return {"shops" : shops}
 
 api.add_resource(upload , "/upload")
 api.add_resource(login , "/login")
@@ -126,7 +146,7 @@ api.add_resource(userInformation , "/users/<string:username>")
 api.add_resource(carInformation , "/cars/<string:carNumber>")
 api.add_resource(allMenu , "/shops/<string:shopName>")
 api.add_resource(menu , "/shops/<string:shopName>/<string:item>")
-
+api.add_resource(shops , "/shops")
 
 if __name__ == "__main__":
     app.run(debug=True , host="0.0.0.0" , port=1337)

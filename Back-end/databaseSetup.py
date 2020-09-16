@@ -57,9 +57,9 @@ c.execute('''CREATE TABLE IF NOT EXISTS submit (
 c.executemany(
     'INSERT INTO submit ("userID","imageName","carNo","date") VALUES (?,?,?,?)',
     [
-        (1 , "a","123456" , "9-9-9"),
-        (1 , "b","15888" , "6-9-9"),
-        (1 , "c","19999" , "5-9-9")
+        (1 , "a",123456 , "9-9-9"),
+        (1 , "b",15888 , "6-9-9"),
+        (1 , "c",19999 , "5-9-9")
     ]
 )
 
