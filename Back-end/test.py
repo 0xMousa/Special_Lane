@@ -42,10 +42,6 @@ def check(imagePath):
         print(test)
         print("*"*10)
 
-    
-    plt.imshow(imageOpened)
-    plt.show()
-
 print(isViolated(cv2.imread(image), [[0, 100], [0, 200], [200, 100], [200, 200]]))
 
 

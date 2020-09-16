@@ -3,3 +3,4 @@ Flask-RESTful
 scikit-build
 pycocotools
 keras
+scikit-learn
