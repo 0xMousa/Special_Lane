@@ -9,6 +9,7 @@ from detectCars import detectCars
 from detectPlate import detectPlate
 from toString import toString
 import cv2
+import datetime
 
 app = Flask(__name__)
 api = Api(app)
@@ -44,9 +45,11 @@ def getPl(image):
     elif plateType == "Didn't find a plate":
         abort(400 , "Didn't find a plate")
     
+    #must review manually
     if len(chars)==0:
-        chars = 0 #must review manually
-    chars = convert.getString(chars)
+        chars = 0 
+    else:
+        chars = convert.getString(chars)
     return chars
 
 def checkImage(imageName):
