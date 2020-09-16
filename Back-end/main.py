@@ -43,13 +43,14 @@ def getPl(image):
     elif plateType == "Square":
         chars = plate.getSquarePlate(image)
     elif plateType == "Didn't find a plate":
-        abort(400 , "Didn't find a plate")
+        pass
     
     #must review manually
     if len(chars)==0:
         chars = 0 
     else:
-        chars = convert.getString(chars)
+        chars = int(convert.getString(chars),10)
+        
     return chars
 
 def checkImage(imageName):
