@@ -31,20 +31,15 @@ image = "images/test_1.jpg"
 
 def check(imagePath):
     imageOpened = cv2.imread(image)
-    cars = car.findCars(imagePath)
+    cars = car.findCars(image)
     for i in cars:
         y = i[0]
         x = i[1]
         h = i[2]
         w = i[3]
-        test = isViolated(imageOpened , [ [x,y],[w,y],[x,h],[w,h]])
-        print("*"*10)
-        print(test)
-        print("*"*10)
+        print(y,x,h,w)
 
-print(isViolated(cv2.imread(image), [[0, 100], [0, 200], [200, 100], [200, 200]]))
-
-
+check("")
 
 '''
 i = cv2.imread(image)
