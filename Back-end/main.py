@@ -55,8 +55,6 @@ def checkImage(imageName):
     if len(cars) == 0:
         abort(400 , "No cars in your image")
     image = cv2.imread(imageName)
-    plt.imshow(image)
-    plt.show()
     for i in cars:
         y = int(i[0]/10)
         x = int(i[1]/10)
@@ -72,6 +70,7 @@ def checkImage(imageName):
             queryDb("update users set points=points+20 where id=?",(session["userID"],))
 
     if not t:
+        queryDb("update users set points=points-20 where id=?",(session["userID"],))
         abort(400 , "no violated car ")
     return "thanks for your submission"
 

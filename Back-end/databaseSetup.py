@@ -22,8 +22,8 @@ c.execute('''CREATE TABLE IF NOT EXISTS shops (
 c.executemany(
     'INSERT INTO shops ("category","shopName") VALUES (?,?)',
     [
-        ("coffee" , "starbucks"),
-        ("resturant" , "firefly")
+        ("coffee" , "Starbucks"),
+        ("resturant" , "Firefly")
     ]
 )
 
@@ -38,10 +38,10 @@ c.execute('''CREATE TABLE IF NOT EXISTS menu (
 c.executemany(
     'INSERT INTO menu ("shopID","name" , "point") VALUES (?,?,?)',
     [
-        (1 , "cafe Latte" , 500),
+        (1 , "Cafe Latte" , 500),
         (1 , "Iced cafe Latte" , 500),
-        (2 , "Angus Burger Sandwich" , 500),
-        (2,"Blue Cheese Burger Sandwich" , 500)
+        (2 , "Angus" , 500),
+        (2,"Blue Cheese" , 500)
     ]
 )
 
