@@ -40,7 +40,7 @@ class UI {
   );
 
   static final fontSize = [50.0, 30.0, 24.0, 20.0, 16.0];
-  static final iconSize = [50.0, 40.0, 30.0, 24.0];
+  static final iconSize = [100.0, 40.0, 30.0, 24.0];
 
   static final buttonHeight = 55.0;
 

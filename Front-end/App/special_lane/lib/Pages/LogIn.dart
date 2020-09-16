@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:special_lane/Classes/classes.dart';
 import 'package:special_lane/Components/components.dart';
 import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-
-import '../Classes/classes.dart';
-import '../Components/components.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -59,6 +57,17 @@ class _LogInState extends State<LogIn> {
         'pass': 'admin',
       },
     );
+    var userData = await http.get(
+      // API.users + '/$username',
+      API.users + '/admin',
+      headers: user.headers,
+    );
+    user.getDate(jsonDecode(userData.body));
+    // var respose = await http.put(
+    //   API.shops + '/starbucks/cafe Latte',
+    //   headers: user.headers,
+    // );
+    // print(respose.body);
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) {
         return HomePage();
