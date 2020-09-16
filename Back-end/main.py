@@ -43,6 +43,7 @@ def getPl(image):
     elif plateType == "Square":
         chars = plate.getSquarePlate(image)
     elif plateType == "Didn't find a plate":
+        chars = []
         pass
     
     #must review manually
