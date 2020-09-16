@@ -30,3 +30,6 @@ Idea implemintaion using Flutter
     - Log in
     - Sign up
     - Upload images
+
+## After 4 hours
+  - State Management is done
