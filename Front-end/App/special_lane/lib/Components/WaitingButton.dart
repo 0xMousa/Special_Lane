@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:special_lane/Components/components.dart';
 import 'package:special_lane/Util/util.dart';
 
 class WaitingButton extends StatelessWidget {
@@ -8,14 +9,7 @@ class WaitingButton extends StatelessWidget {
       child: Container(
         height: UI.buttonHeight,
         child: Center(
-          child: Container(
-            height: UI.buttonHeight * 0.75,
-            width: UI.buttonHeight * 0.75,
-            child: CircularProgressIndicator(
-              backgroundColor: UI.darkColor,
-              valueColor: AlwaysStoppedAnimation<Color>(UI.primaryFontColor),
-            ),
-          ),
+          child: Loading(),
         ),
       ),
     );

@@ -138,7 +138,7 @@ class _SignUpState extends State<SignUp> {
               ),
               CustomTextField(
                 action: carNumberInput,
-                hint: 'Car Number',
+                hint: 'Car Number (optional)',
                 icon: Icons.done,
                 iconColor: (carNumber.length == 0
                     ? UI.darkColor

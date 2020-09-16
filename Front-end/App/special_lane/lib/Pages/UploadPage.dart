@@ -34,30 +34,6 @@ class _UploadPageState extends State<UploadPage> {
     isSuccess = null;
   }
 
-  // Future<Map> post(String url, dynamic data) async {
-  //   http.Response response = await http.post(url, body: data, headers: headers);
-  //   updateCookie(response);
-  //   return json.decode(response.body);
-  // }
-
-  // void updateCookie(http.Response response) {
-  //   String rawCookie = response.headers['set-cookie'];
-  //   print(rawCookie);
-  //   if (rawCookie != null) {
-  //     int index = rawCookie.indexOf(';');
-  //     headers['cookie'] =
-  //         (index == -1) ? rawCookie : rawCookie.substring(0, index);
-  //   }
-  // }
-
-  // logIn() async {
-  //   var url = 'http://18.195.21.37:1337/login';
-  //   post(url, {
-  //     'user': 'admin',
-  //     'pass': 'admin',
-  //   });
-  // }
-
   gallery() {
     pickImage(ImageSource.gallery);
   }
@@ -80,11 +56,12 @@ class _UploadPageState extends State<UploadPage> {
             await MultipartFile.fromFile(filePath.path, filename: fileName),
       });
       dio.options.headers['cookie'] = user.headers['cookie'];
+      isLoading = true;
       Response response = await dio.post(
         API.upload,
         data: formData,
       );
-      isLoading = true;
+      isLoading = false;
       print("File upload response: $response");
     } catch (e) {
       print("expectation Caugch: $e");
@@ -198,7 +175,7 @@ class _UploadPageState extends State<UploadPage> {
                 child: Icon(
                   Icons.camera,
                   size: UI.iconSize[1],
-                  color: UI.primaryFontColor,
+                  color: (isLoading ? UI.darkColor : UI.primaryFontColor),
                 ),
               ),
               GestureDetector(
@@ -206,7 +183,7 @@ class _UploadPageState extends State<UploadPage> {
                 child: Icon(
                   Icons.image,
                   size: UI.iconSize[1],
-                  color: UI.primaryFontColor,
+                  color: (isLoading ? UI.darkColor : UI.primaryFontColor),
                 ),
               ),
             ],
@@ -229,15 +206,63 @@ class _UploadPageState extends State<UploadPage> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(35.0),
             ),
-            child: Image.file(imageFile),
+            child: isSuccess == null
+                ? Image.file(imageFile)
+                : isSuccess
+                    ? Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.file(imageFile),
+                          Icon(
+                            Icons.done,
+                            size: UI.iconSize[0],
+                            color: UI.primaryFontColor,
+                          ),
+                        ],
+                      )
+                    : Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.file(imageFile),
+                          Icon(
+                            Icons.close,
+                            size: UI.iconSize[0],
+                            color: UI.primaryFontColor,
+                          ),
+                        ],
+                      ),
           ),
           SizedBox(
             height: 30.0,
           ),
-          ImageTools(
-            clear: clear,
-            edit: edit,
-            done: done,
+          Container(
+            child: isLoading
+                ? Loading()
+                : isSuccess == null
+                    ? ImageTools(
+                        clear: clear,
+                        edit: edit,
+                        done: done,
+                      )
+                    : isSuccess
+                        ? Text(
+                            '+20',
+                            style: TextStyle(
+                              color: UI.pureGreen,
+                              fontSize: UI.fontSize[3],
+                              fontFamily: 'Quicksand',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : Text(
+                            '-20',
+                            style: TextStyle(
+                              color: UI.pureRed,
+                              fontSize: UI.fontSize[3],
+                              fontFamily: 'Quicksand',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
           ),
         ],
       ),

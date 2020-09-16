@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:special_lane/Classes/classes.dart';
 import 'package:special_lane/Util/util.dart';
+import 'package:http/http.dart' as http;
 
 class PrisePage extends StatefulWidget {
   static final id = 'PrisePageId';
@@ -19,11 +23,13 @@ class PrisePage extends StatefulWidget {
 
 class _PrisePageState extends State<PrisePage> {
   Prise prise;
+  User user;
 
   @override
   void initState() {
     super.initState();
     prise = null;
+    user = Provider.of<User>(context, listen: false);
   }
 
   openPrise(Prise priseToOpen) {
@@ -32,10 +38,20 @@ class _PrisePageState extends State<PrisePage> {
     });
   }
 
-  done() {
-    setState(() {
-      prise = null;
-    });
+  done() async {
+    var newCode = await http.put(
+      API.shops + '/${widget.title}/${prise.name}',
+      headers: user.headers,
+    );
+    print(newCode.body);
+    var code = jsonDecode(newCode.body);
+    user.addPrise(
+      UserPrise(
+        name: prise.name,
+        shop: widget.title,
+        code: code,
+      ),
+    );
   }
 
   cancel() {
@@ -154,10 +170,7 @@ class _PriseItem extends StatelessWidget {
                     height: 5.0,
                   ),
                   Text(
-                    item.shop +
-                        ' / ' +
-                        UI.numberFormat(item.points.toString()) +
-                        ' Points',
+                    UI.numberFormat(item.points.toString()) + ' Points',
                     style: TextStyle(
                       color: UI.secondaryFontColor,
                       fontSize: UI.fontSize[4],

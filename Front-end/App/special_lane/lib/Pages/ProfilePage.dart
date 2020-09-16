@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:special_lane/Classes/classes.dart';
 import 'package:special_lane/Components/components.dart';
 import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
@@ -15,14 +17,16 @@ class _ProfilePageState extends State<ProfilePage> {
 
   String name, username, email, carNumber;
   bool isObscure;
+  User user;
 
   @override
   void initState() {
     super.initState();
-    name = 'Something Anything';
-    username = 'something_funny';
-    email = 'something@gmail.com';
-    carNumber = '2458734';
+    user = Provider.of<User>(context, listen: false);
+    name = user.name;
+    username = user.username;
+    email = user.email;
+    carNumber = user.carNo;
     isObscure = true;
   }
 
@@ -102,7 +106,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 30.0,
                   ),
-                  CustomContainer(),
+                  CustomContainer(
+                    child: Icon(
+                      Icons.camera,
+                      size: UI.iconSize[0],
+                      color: UI.darkColor,
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
