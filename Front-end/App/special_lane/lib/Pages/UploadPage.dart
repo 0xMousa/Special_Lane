@@ -5,7 +5,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:special_lane/Components/components.dart';
-import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
 import 'package:path/path.dart' as path;
 
@@ -61,14 +60,31 @@ class _UploadPageState extends State<UploadPage> {
         API.upload,
         data: formData,
       );
-      isLoading = false;
+      if (response.statusCode == 200) {
+        setState(() {
+          isSuccess = true;
+        });
+        user.addPoints();
+      }
       print("File upload response: $response");
     } catch (e) {
       print("expectation Caugch: $e");
     }
+    setState(() {
+      isLoading = false;
+      if (isSuccess == null) {
+        isSuccess = false;
+      }
+    });
+    if (isSuccess == false) {
+      user.subtractPoints();
+    }
   }
 
   Future<void> pickImage(ImageSource source) async {
+    if (isLoading) {
+      return;
+    }
     final pickedFile = await picker.getImage(source: source);
 
     setState(() {
@@ -106,9 +122,7 @@ class _UploadPageState extends State<UploadPage> {
 
   nvigate(String id) {
     scaffoldKey.currentState.openEndDrawer();
-    if (id == HomePage.id) {
-      Navigator.pop(context);
-    } else if (id != UploadPage.id) {
+    if (id != UploadPage.id) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) {
           return IdToPage.idToPage(id);
@@ -216,7 +230,7 @@ class _UploadPageState extends State<UploadPage> {
                           Icon(
                             Icons.done,
                             size: UI.iconSize[0],
-                            color: UI.primaryFontColor,
+                            color: UI.pureGreen,
                           ),
                         ],
                       )
@@ -227,7 +241,7 @@ class _UploadPageState extends State<UploadPage> {
                           Icon(
                             Icons.close,
                             size: UI.iconSize[0],
-                            color: UI.primaryFontColor,
+                            color: UI.pureRed,
                           ),
                         ],
                       ),
@@ -249,7 +263,7 @@ class _UploadPageState extends State<UploadPage> {
                             '+20',
                             style: TextStyle(
                               color: UI.pureGreen,
-                              fontSize: UI.fontSize[3],
+                              fontSize: UI.fontSize[2],
                               fontFamily: 'Quicksand',
                               fontWeight: FontWeight.bold,
                             ),
@@ -258,7 +272,7 @@ class _UploadPageState extends State<UploadPage> {
                             '-20',
                             style: TextStyle(
                               color: UI.pureRed,
-                              fontSize: UI.fontSize[3],
+                              fontSize: UI.fontSize[2],
                               fontFamily: 'Quicksand',
                               fontWeight: FontWeight.bold,
                             ),

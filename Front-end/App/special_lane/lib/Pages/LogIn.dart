@@ -53,13 +53,13 @@ class _LogInState extends State<LogIn> {
     await post(
       API.login,
       {
-        'user': 'admin',
-        'pass': 'admin',
+        'user': username,
+        'pass': password,
       },
     );
     var userData = await http.get(
       // API.users + '/$username',
-      API.users + '/admin',
+      API.users + '/$username',
       headers: user.headers,
     );
     user.getDate(jsonDecode(userData.body));

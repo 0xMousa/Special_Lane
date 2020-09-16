@@ -43,8 +43,7 @@ class _PrisePageState extends State<PrisePage> {
       API.shops + '/${widget.title}/${prise.name}',
       headers: user.headers,
     );
-    print(newCode.body);
-    var code = jsonDecode(newCode.body);
+    var code = jsonDecode(newCode.body)['code'];
     user.addPrise(
       UserPrise(
         name: prise.name,
@@ -52,6 +51,7 @@ class _PrisePageState extends State<PrisePage> {
         code: code,
       ),
     );
+    cancel();
   }
 
   cancel() {

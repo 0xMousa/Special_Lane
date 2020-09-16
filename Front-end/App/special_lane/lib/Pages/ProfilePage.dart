@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:special_lane/Classes/classes.dart';
 import 'package:special_lane/Components/components.dart';
-import 'package:special_lane/Pages/pages.dart';
 import 'package:special_lane/Util/util.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -63,9 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   nvigate(String id) {
     scaffoldKey.currentState.openEndDrawer();
-    if (id == HomePage.id) {
-      Navigator.pop(context);
-    } else if (id != ProfilePage.id) {
+    if (id != ProfilePage.id) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) {
           return IdToPage.idToPage(id);

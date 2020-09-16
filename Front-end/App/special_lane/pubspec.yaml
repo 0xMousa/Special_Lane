@@ -33,6 +33,8 @@ dependencies:
   provider: ^4.3.2+2
   dio: ^3.0.10
   path: ^1.7.0
+  toast: ^0.1.5
+  clipboard: ^0.1.2+8
 
 dev_dependencies:
   flutter_test:

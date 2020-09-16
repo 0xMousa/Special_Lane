@@ -8,4 +8,8 @@ class UserPrise {
     this.shop,
     this.code,
   });
+
+  getCode() {
+    return this.code;
+  }
 }

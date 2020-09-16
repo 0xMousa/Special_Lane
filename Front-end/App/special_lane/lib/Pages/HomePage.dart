@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   bool isLoading;
   User user;
   var shops;
-  var shopsNames = ['starbucks'];
+  var shopsNames;
   var shopPrises;
 
   @override
@@ -32,37 +32,44 @@ class _HomePageState extends State<HomePage> {
     isLoading = true;
     points = user.points;
     shopPrises = Map<String, dynamic>();
+    shopsNames = List();
     getData();
     shops = List();
     cities = List();
     violations = List();
     for (int i = 0; i < Things.cities.length; i++) {
-      int sum = 0;
-      for (int j = 0; j < Things.city[Things.cities[i]].length; j++) {
-        sum += int.parse(Things.city[Things.cities[i]][j].points);
-      }
-      String number;
-      if (sum == 0) {
-        number = '0';
-      } else if (sum > 0) {
-        number = '+${sum.toString()}';
+      if (Things.cities[i] == 'Amman') {
+        cities.add(CardInfo(
+          name: Things.cities[i],
+          number: user.points.toString(),
+        ));
       } else {
-        number = '-${sum.toString()}';
+        cities.add(CardInfo(
+          name: Things.cities[i],
+          number: '0',
+        ));
       }
-      cities.add(CardInfo(
-        name: Things.cities[i],
-        number: number,
-      ));
     }
-    for (int i = 0; i < Things.prizes.length; i++) {
-      violations.add(CardInfo(
-        name: Things.prizes[i],
-        number: '25',
-      ));
-    }
+    violations.add(CardInfo(
+      name: 'Abdun',
+      number: '25',
+    ));
+    violations.add(CardInfo(
+      name: 'Khilda',
+      number: '50',
+    ));
   }
 
   getData() async {
+    var getShops = await http.get(
+      API.shops,
+      headers: user.headers,
+    );
+    var allShops = jsonDecode(getShops.body);
+    for (int i = 0; i < allShops['shops'].length; i++) {
+      // shopsNames.add('starbucks');
+      shopsNames.add(allShops['shops'][i]);
+    }
     for (int i = 0; i < shopsNames.length; i++) {
       var respose = await http.get(
         API.shops + '/${shopsNames[i]}',
@@ -101,7 +108,6 @@ class _HomePageState extends State<HomePage> {
           API.shops + '/${shopsNames[i]}/${menu[j]['name']}',
           headers: user.headers,
         );
-        print(prise.body);
         var priseData = jsonDecode(prise.body);
         for (int k = 0; k < priseData['codes'].length; k++) {
           user.addPrise(
@@ -126,7 +132,7 @@ class _HomePageState extends State<HomePage> {
   nvigate(String id) {
     scaffoldKey.currentState.openEndDrawer();
     if (id != HomePage.id) {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) {
           return IdToPage.idToPage(id);
         }),
