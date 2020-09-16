@@ -77,14 +77,14 @@ c.execute('''CREATE TABLE IF NOT EXISTS prizes (
 c.executemany(
     'INSERT INTO prizes ("menuID","userID","code","status") VALUES (?,?,?,?)',
     [
-        (1 , 1,"mosa-mosa" , 1),
-        (1 , 1,"bbbb-bbbb" , 1),
-        (1 , 1,"cccc-cccc" , 0)
+        (1 , 1,"JFFe-VUxW-CsZX-XDLt" , 1),
+        (1 , 1,"8HnZ-OuUc-3kjl-MdeC" , 1),
+        (1 , 1,"tvN8-sviU-psAk-s2zG" , 0)
     ]
 )
 
-c.execute('''INSERT INTO users (username , name , password , email ,points , carNo) VALUES("admin" , "Mousa" , "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" , "admin@lane.com" , 10000 , "")''')
-c.execute('''INSERT INTO users (username , name , password , email ,points , carNo) VALUES("mustafa" , "mustafa" , "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" , "mustafa@lane.com" , 0 , "")''')
+c.execute('''INSERT INTO users (username , name , password , email ,points , carNo) VALUES("admin" , "Mousa" , "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" , "admin@special-lane.com" , 10000 , "")''')
+c.execute('''INSERT INTO users (username , name , password , email ,points , carNo) VALUES("mustafa" , "mustafa" , "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" , "mustafa@special-lane.com" , 0 , "")''')
 
 
 conn.commit()
